@@ -1,5 +1,6 @@
 import "./categories-container.styles.scss"
 import CategoryItem from "../category-item/category-item.component.jsx"
+import React from 'react';
 
 const CategoriesContainer = ({categories}) => {
   return (

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { createAuthUserWithEmailAndPassword, createUserDocFromAuth } from  '../../utils/firebase/firebase.utils'
 import FormInput from '../../components/form-input/form-input.component'
 import './sign-up-form.styles.scss'
@@ -15,6 +15,7 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields)
   }
@@ -29,9 +30,8 @@ const SignUpForm = () => {
     }
 
     try {
-      const {authUser} = await createAuthUserWithEmailAndPassword(email, password);
-
-      await createUserDocFromAuth(authUser, {displayName});
+      const { user } = await createAuthUserWithEmailAndPassword(email, password);
+      await createUserDocFromAuth(user, { displayName });
       resetFormFields();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
@@ -40,7 +40,7 @@ const SignUpForm = () => {
         console.log("User creation error", error)
       }
     }
-  }
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -57,7 +57,7 @@ const SignUpForm = () => {
 
         <FormInput label="Email" type="email" required onChange={handleChange} name="email" value={email}/>
 
-        <FormInput label="Password" required onChange={handleChange} name="password" value={password}/>
+        <FormInput label="Password" type="password" required onChange={handleChange} name="password" value={password}/>
 
         <FormInput label="Confirm Password" type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword}/>
         <Button type="submit">Sign Up</Button>

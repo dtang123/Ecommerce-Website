@@ -95,7 +95,7 @@ export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
       console.log("Error creating the user", error.message)
     }
   }
-  return userDocRef;
+  return userSnapshot;
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -121,3 +121,16 @@ error: errorCallback
 complete: callback to close stream
 
 */
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth, (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+
+  })
+}
